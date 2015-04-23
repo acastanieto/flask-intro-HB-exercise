@@ -24,14 +24,21 @@ def say_hello():
         <body>
             <h1>Hi There!</h1>
             <form action="/greet">
-                <label>What's your name? <input type="text" name="puppy"></label>
+                <label>What's your name? <input type="text" name="person"></label>
                 <label>Compliment:
-                    <select name="kitten">
-                        <option value="awesome">Awesome</option>
-                        <option value="terrific">Terrific</option>
-                        <option value="fantastic">Fantastic</option>
-                        <option value="neato">Neato</option>
-                    </select>
+                    <input type="radio" name="compliment" value="awesome">Awesome
+                    <input type="radio" name="compliment" value="ducky">Ducky
+                    <input type="radio" name="compliment" value="wonderful">Wonderful
+                    <input type="radio" name="compliment" value="lovely">Lovely
+                </label>
+                <label>What's the first word that comes to your mind?
+                <input type="text" name="firstword">
+                </label>
+                <label>Favorite color(s):
+                    <input type="checkbox" name="color" value="purple">Purple
+                    <input type="checkbox" name="color" value="teal">Teal
+                    <input type="checkbox" name="color" value="sunflower">Sunflower
+                    <input type="checkbox" name="color" value="orange">Orange
                 </label>
                 <input type="submit">
             </form>
@@ -44,12 +51,12 @@ def say_hello():
 def greet_person():
     player = request.args.get("person")
     compliment = request.args.get("compliment")
+    first_word = request.args.get("firstword")
+    colors = request.args.getlist("color")
+    print colors
+    print type(colors)
 
-    # AWESOMENESS = [
-    #     'awesome', 'terrific', 'fantastic', 'neato', 'fantabulous', 'wowza', 'oh-so-not-meh',
-    #     'brilliant', 'ducky', 'coolio', 'incredible', 'wonderful', 'smashing', 'lovely']
-
-    # compliment = choice(AWESOMENESS)
+    color_str = " and ".join(colors)
 
     return """
     <!DOCTYPE html>
@@ -58,9 +65,9 @@ def greet_person():
             <title>A Compliment</title>
         </head>
         <body>
-            Hi %s I think you're %s!
+            Hi %s I think you're %s! And I know you really like %s %s!
         </body>
-    </html>""" % (player, compliment)
+    </html>""" % (player, compliment, color_str, first_word)
 
 
 if __name__ == '__main__':
